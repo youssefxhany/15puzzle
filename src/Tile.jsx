@@ -5,7 +5,7 @@ const Tile = ({index, pos, onClick}) => {
     const left = pos[1]*100 + 5;
     const bgLeft = (index%4)*100 + 5;
     const bgTop = Math.floor(index/4)*100 + 5;
-    return <button className='tile' style={{top, left, backgroundPosition: `-${bgLeft}px -${bgTop}px`}} >{index} </button>
+    return <button className='tile' style={{top, left, backgroundPosition: `-${bgLeft}px -${bgTop}px`}} onClick={()=>onClick(index)}>{index} </button>
 }
 // class Tile extends Component{
 

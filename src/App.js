@@ -192,12 +192,13 @@ class my_game_status {
         <div className = 'moves'>
           {state.num_moves}
         </div>
-        <button className='big-button' onClick= {state.undo}>UNDO</button>
+        <h1>TILE 15 IS THE EMPTY TILE</h1>
+        <button className='big-button' onClick= {undo}>UNDO</button>
       </div>
       <div className='board'>
       {
         Object.values(state.board).map((pos, index) => (
-          <Tile index={index} pos={pos} onClick={() => state.move(index)}/>
+          <Tile index={index} pos={pos} onClick={move}/>
         ))
       }
       { state.solved() &&
