@@ -50,9 +50,11 @@ class my_game_status {
 
   shuffle() {
     this.shuffling_flag = true;
+    this.stack_before_game = [];
     let num_shuffle_moves = generate_rand_num(1000,2000);
     while (num_shuffle_moves-- > 0) {
       this.move_in_direction(DIRECTIONS[generate_rand_num(0,3)])
+      if (this.shuffling_flag) this.stack_before_game.push(this.board);
     }
     this.shuffling_flag = false;
   }
@@ -140,6 +142,15 @@ class my_game_status {
     };
   }
 
+  self_solve(){
+    while(this.stack.length !== 0){
+      this.undo()
+    }
+    while(this.stack_before_game.length !== 0){
+      this.board = this.stack_before_game.pop();
+    }
+  }
+
 }
 
 
@@ -169,6 +180,11 @@ class my_game_status {
         actual_game_state.moving_tile(index);
         setState(actual_game_state.get_state());
     }
+
+    function self_solver() {
+      actual_game_state.self_solve();
+      setState(actual_game_state.get_state());
+    }
     
     useEffect(() => {
       newGame()
@@ -186,6 +202,7 @@ class my_game_status {
     }, []); 
 
     console.log(Object.values(state.board))
+
   return (
     <div className="game-container">
       <div className="game-header">
@@ -194,6 +211,7 @@ class my_game_status {
         </div>
         <h1>TILE 15 IS THE EMPTY TILE</h1>
         <button className='big-button' onClick= {undo}>UNDO</button>
+        <button className='big-button' onClick= {self_solver}>SELF SOLVER</button>
       </div>
       <div className='board'>
       {
@@ -203,7 +221,7 @@ class my_game_status {
       }
       { state.solved() &&
           <div className='overlay'>
-            <button className='big-button' onClick={state.newGame}>
+            <button className='big-button' onClick={newGame}>
               PLAY AGAIN 
             </button>
           </div>
